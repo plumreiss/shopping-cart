@@ -5,6 +5,9 @@ const fragment = document.createDocumentFragment()
 document.addEventListener('DOMContentLoaded', () => {
     fetchData()
 })
+items.addEventListener('click', e => {
+    addCart(e)
+})
 
 const fetchData = async () => {
     try {
@@ -28,3 +31,4 @@ const addCards = data => {
     });
     items.appendChild(fragment)
 }
+
