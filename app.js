@@ -1,11 +1,15 @@
+const cards = document.getElementById('cards')
 const items = document.getElementById('items')
+const footer = document.getElementById('footer')
 const templateCard = document.getElementById('template-card').content
+const templateFooter = document.getElementById('template-footer').content
+const templateCart = document.getElementById('template-cart').content
 const fragment = document.createDocumentFragment()
 let cart = {}
 document.addEventListener('DOMContentLoaded', () => {
     fetchData()
 })
-items.addEventListener('click', e => {
+cards.addEventListener('click', e => {
     addCart(e)
 })
 
@@ -29,7 +33,7 @@ const addCards = data => {
         const clone = templateCard.cloneNode(true)
         fragment.appendChild(clone)
     });
-    items.appendChild(fragment)
+    cards.appendChild(fragment)
 }
 
 const addCart = (e) => {
@@ -51,7 +55,23 @@ const setCart = object => {
         product.cantidad = ++cart[product.id].cantidad
     }
     cart[product.id] = { ...product } //spread operator
-    console.log(cart)
+    paintCart()
 }
 
+const paintCart = () => {
+    console.log(cart)
+    items.innerHTML = ''
+    Object.values(cart).forEach(product => {
+        templateCart.querySelector('th').textContent = product.id
+        templateCart.querySelectorAll('td')[0].textContent = product.title
+        templateCart.querySelectorAll('td')[1].textContent = product.cantidad
+        templateCart.querySelector('.btn-info').dataset.id = product.id
+        templateCart.querySelector('.btn-danger').dataset.id = product.id
+        templateCart.querySelector('span').textContent = product.cantidad * product.precio
 
+        const clone = templateCart.cloneNode(true)
+        fragment.appendChild(clone)
+    })
+    items.appendChild(fragment)
+
+}
