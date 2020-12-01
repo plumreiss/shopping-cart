@@ -59,7 +59,7 @@ const setCart = object => {
 }
 
 const paintCart = () => {
-    console.log(cart)
+    // console.log(cart)
     items.innerHTML = ''
     Object.values(cart).forEach(product => {
         templateCart.querySelector('th').textContent = product.id
@@ -73,5 +73,23 @@ const paintCart = () => {
         fragment.appendChild(clone)
     })
     items.appendChild(fragment)
+    paintFooter()
+}
 
+const paintFooter = () => {
+    footer.innerHTML = ''
+    if (Object.keys(cart).lenght === 0) {
+        footer.innerHTML = `
+        <th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>
+        `
+    }
+    const nQuantity = Object.values(cart).reduce((acc, { cantidad }) => acc + cantidad, 0)
+    const nPrice = Object.values(cart).reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
+
+    templateFooter.querySelectorAll('td')[0].textContent = nQuantity
+    templateFooter.querySelector('span').textContent = nPrice
+
+    const clone = templateFooter.cloneNode(true)
+    fragment.appendChild(clone)
+    footer.appendChild(fragment)
 }
