@@ -78,10 +78,11 @@ const paintCart = () => {
 
 const paintFooter = () => {
     footer.innerHTML = ''
-    if (Object.keys(cart).lenght === 0) {
+    if (Object.keys(cart).length === 0) {
         footer.innerHTML = `
         <th scope="row" colspan="5">Carrito vacío - comience a comprar!</th>
         `
+        return
     }
     const nQuantity = Object.values(cart).reduce((acc, { cantidad }) => acc + cantidad, 0)
     const nPrice = Object.values(cart).reduce((acc, { cantidad, precio }) => acc + cantidad * precio, 0)
@@ -92,4 +93,10 @@ const paintFooter = () => {
     const clone = templateFooter.cloneNode(true)
     fragment.appendChild(clone)
     footer.appendChild(fragment)
+
+    const btnEmptyCart = document.getElementById('empty-cart')
+    btnEmptyCart.addEventListener('click', () => {
+        cart = {}
+        paintCart()
+    })
 }
