@@ -13,6 +13,10 @@ cards.addEventListener('click', e => {
     addCart(e)
 })
 
+items.addEventListener('click', e => {
+    btnAction(e)
+})
+
 const fetchData = async () => {
     try {
         const res = await fetch('api.json')
@@ -99,4 +103,23 @@ const paintFooter = () => {
         cart = {}
         paintCart()
     })
+}
+
+const btnAction = (e) => {
+    //Increase
+    if (e.target.classList.contains('btn-info')) {
+        const product = cart[e.target.dataset.id]
+        ++product.cantidad
+        cart[e.target.dataset.id] = { ...product }
+        paintCart()
+    }
+    else if (e.target.classList.contains('btn-danger')) {
+        const product = cart[e.target.dataset.id]
+        --product.cantidad
+        if (product.cantidad === 0) {
+            delete cart[e.target.dataset.id]
+        }
+        paintCart()
+    }
+    e.stopPropagation()
 }
