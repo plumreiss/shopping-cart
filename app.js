@@ -8,7 +8,11 @@ const fragment = document.createDocumentFragment()
 let cart = {}
 document.addEventListener('DOMContentLoaded', () => {
     fetchData()
+    if (localStorage.getItem('cart'))
+        cart = JSON.parse(localStorage.getItem('cart'))
+    paintCart()
 })
+
 cards.addEventListener('click', e => {
     addCart(e)
 })
@@ -78,6 +82,8 @@ const paintCart = () => {
     })
     items.appendChild(fragment)
     paintFooter()
+
+    localStorage.setItem('cart', JSON.stringify(cart))
 }
 
 const paintFooter = () => {
